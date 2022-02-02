@@ -1,0 +1,29 @@
+{
+  "scripts": {
+    "start": "nodemon"
+  },
+  "dependencies": {
+    "bcrypt-nodejs": "^0.0.3",
+    "body-parser": "^1.19.1",
+    "consign": "^0.1.6",
+    "cors": "^2.8.5",
+    "express": "^4.17.2",
+    "express-validator": "^6.14.0",
+    "jwt-simple": "^0.5.6",
+    "knex": "^1.0.1",
+    "moment": "^2.29.1",
+    "mysql": "^2.18.1",
+    "objection": "^3.0.1",
+    "passport": "^0.5.2",
+    "passport-jwt": "^4.0.0",
+    "pg": "^8.7.1",
+    "save": "^2.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.8.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1"
+  }
+}
