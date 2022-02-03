@@ -7,6 +7,9 @@ module.exports = () => {
     if (e.detail?.includes('is not present in table')) {
       throw Error('Cadastro não encontrado!');
     }
+	if (e.detail?.includes('already exists')) {
+      throw Error('Cadastro já existe!');
+3	  }	
     if (e.detail?.includes('still referenced from table')) {
       throw Error('Cadastro em uso!');
     }

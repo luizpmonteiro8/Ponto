@@ -20,7 +20,7 @@ module.exports = (app) => {
         })
         .returning('id')
         .then((id) => res.status(200).send(id[0]))
-        .catch((err) => res.status(400).json(err));
+        .catch((e) =>res.status(400).json({ status: 400, message: e.message }));
     });
   };
 

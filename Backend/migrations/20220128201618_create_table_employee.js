@@ -6,6 +6,7 @@ exports.up = function (knex) {
   return knex.schema.createTable('employee', (table) => {
     table.increments('id').primary,
       table.string('name').notNullable().unique(),
+      table.string('cpf').notNullable().unique(),
       table.double('salary').notNullable(),
       table.integer('job_id').references('id').inTable('job').notNullable().onDelete('RESTRICT');
     table

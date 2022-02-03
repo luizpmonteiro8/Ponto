@@ -1,4 +1,4 @@
-import { Login.Component } from './login.component';
+import { Login.Component } from './signincomponent';
 
 describe('Login.Component', () => {
   it('should create an instance', () => {

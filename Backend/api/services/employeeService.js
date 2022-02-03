@@ -18,6 +18,7 @@ module.exports = (app) => {
     const employee = {
       name: body.name,
       salary: body.salary,
+      cpf: body.cpf,
       job_id: body.jobId,
       address_id: addressId.id,
     };
@@ -54,6 +55,7 @@ module.exports = (app) => {
       id: body.id,
       name: body.name,
       salary: body.salary,
+      cpf: body.cpf,
       job_id: body.jobId,
       address_id: body.address.id,
     };
