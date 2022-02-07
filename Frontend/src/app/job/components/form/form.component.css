@@ -1,0 +1,11 @@
+.buttonSpace {
+  margin-top: 20px;
+}
+mat-card{
+  align-self: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  width: 50%;
+  border: 0.01px solid rgb(214, 211, 211)
+}

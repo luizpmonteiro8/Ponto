@@ -1,0 +1,28 @@
+<mat-toolbar color="primary">
+  <a (click)="home()">Sistema de ponto</a>
+
+  <button mat-flat-button [matMenuTriggerFor]="registrationMenu"  *ngIf="isAutheticaded()">Cadastro</button>
+<mat-menu #registrationMenu="matMenu">
+  <button (click)="registration('job')" mat-menu-item>Cargo</button>
+  <button (click)="registration('employee')" mat-menu-item>Funcionário</button>
+</mat-menu>
+
+<button mat-flat-button [matMenuTriggerFor]="listMenu"  *ngIf="isAutheticaded()">Listagem</button>
+<mat-menu #listMenu="matMenu">
+  <button (click)="list('job')" mat-menu-item>Cargo</button>
+  <button (click)="list('employee')" mat-menu-item>Funcionário</button>
+</mat-menu>
+
+<span class="toolbar-spacer"></span>
+
+  <a (click)="logout()"
+    alt="Sair" title="Sair"
+    *ngIf="isAutheticaded()">
+    <mat-icon
+    	class="toolbar-icon"
+    	matTooltip="Sair">
+    	exit_to_app
+    </mat-icon>
+  </a>
+</mat-toolbar>
+

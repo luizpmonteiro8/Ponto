@@ -1,0 +1,42 @@
+<H1>Lista de funcionário</H1>
+
+<mat-table [dataSource]="dataSource" matSort>
+
+	<mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columns;"></mat-row>
+
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        Id
+      </mat-header-cell>
+      <mat-cell *matCellDef="let employeeList">
+        {{ employeeList.id }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        Nome
+      </mat-header-cell>
+      <mat-cell *matCellDef="let employeeList">
+      	{{ employeeList.name }}
+      </mat-cell>
+    </ng-container>
+
+</mat-table>
+
+<mat-paginator
+  #paginator
+  [pageSize]="10"
+  [pageSizeOptions]="[5, 10, 15, 25]">
+</mat-paginator>
+
+
+
+
+
+
+
+
+
+

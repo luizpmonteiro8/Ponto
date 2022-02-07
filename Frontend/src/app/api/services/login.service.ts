@@ -11,7 +11,7 @@ export class LoginService {
 
   constructor(private http: HttpClient) {}
 
-  signIn(login: Credential): Observable<any> {
-    return this.http.post(env.baseUrl + this.PATH, login, { observe: 'response' });
+  signIn(credential: Credential): Observable<any> {
+    return this.http.post(env.baseUrl + this.PATH, credential, { observe: 'response' });
   }
 }

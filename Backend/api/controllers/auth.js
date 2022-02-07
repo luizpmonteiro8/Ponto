@@ -17,6 +17,7 @@ module.exports = (app) => {
         }
 
         const payload = {
+          id: user.id,
           name: user.name,
           email: user.email,
         };

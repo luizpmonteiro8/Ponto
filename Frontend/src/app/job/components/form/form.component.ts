@@ -1,25 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Credential } from 'src/app/api';
-import { LoginService } from 'src/app/api';
+import { Job } from 'src/app/api';
+import { JobService } from 'src/app/api';
 import { Title } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-login-pf',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  selector: 'app-job-form',
+  templateUrl: './form.component.html',
+  styleUrls: ['./form.component.css'],
 })
-export class LoginComponent implements OnInit {
+export class FormComponent implements OnInit {
   form: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private titleService: Title,
-    private loginService: LoginService, //,
-  ) /*private router: Router*/ {}
+    private jobService: JobService, //,
+    private router: Router,
+  ) {}
 
   ngOnInit() {
     this.createForm();
@@ -27,25 +28,26 @@ export class LoginComponent implements OnInit {
 
   createForm() {
     this.form = this.fb.group({
-      email: ['teste@teste.com.br', [Validators.required, Validators.email]],
-      password: ['12345678', [Validators.required, Validators.minLength(8)]],
+      id: new FormControl({ value: null, disabled: true }),
+      name: ['', [Validators.required]],
     });
-    this.setTitle('Sistema de ponto - Login');
+    this.setTitle('Sistema de ponto - cargo');
   }
 
   setTitle(newTitle: string) {
     this.titleService.setTitle(newTitle);
   }
 
-  signIn() {
+  insertJob() {
     if (this.form.invalid) {
       return;
     }
 
-    const credential: Credential = this.form.value;
-    this.loginService.signIn(credential).subscribe({
+    const job: Job = this.form.value;
+    this.jobService.insert(job).subscribe({
       next: (resp) => {
-        localStorage['token'] = resp.headers.get('authorization');
+        this.snackBar.open('Salvo com id ' + resp.id, 'Sucesso', { duration: 5000 });
+        this.router.navigate(['/cargo/listagem']);
       },
       error: (err) => {
         const msg = err.error?.message ? err.error.message : 'Tente novamente em instantes.';
