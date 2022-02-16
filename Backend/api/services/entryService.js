@@ -20,6 +20,17 @@ module.exports = (app) => {
     return result;
   };
 
+  const getEntryByEmployeeIdAndBuildingId = async (buildingId, employeeId) => {
+    const result = await Entry.query()
+      .withGraphJoined('employee')
+      .where('employee_id', '=', employeeId)
+      .where('building_id', '=', buildingId)
+      .catch((e) => {
+        app.api.services.throwError(e);
+      });
+    return result;
+  };
+
   const getEntryByEmployeeWithDate = async (employeeId, date1) => {
     var date = new Date(date1);
     const finalDayMonth = new Date(date.getFullYear(), date.getMonth() + 2, 0);
@@ -39,6 +50,7 @@ module.exports = (app) => {
     const entry = {
       type: body.type,
       date_time: body.dateTime,
+      obs: body.obs,
       employee_id: body.employeeId,
       building_id: body.buildingId,
     };
@@ -67,6 +79,7 @@ module.exports = (app) => {
     const entry = {
       id: body.id,
       type: body.type,
+      obs: body.obs,
       date_time: body.dateTime,
       employee_id: body.employeeId,
       building_id: body.buildingId,
@@ -84,5 +97,13 @@ module.exports = (app) => {
       });
   };
 
-  return { getAllEntry, getEntryByEmployeeId, getEntryByEmployeeWithDate, save, remove, update };
+  return {
+    getAllEntry,
+    getEntryByEmployeeId,
+    getEntryByEmployeeWithDate,
+    getEntryByEmployeeIdAndBuildingId,
+    save,
+    remove,
+    update,
+  };
 };

@@ -62,7 +62,7 @@ module.exports = (app) => {
     .route('/buildingEmployee/:id')
     .all(app.config.passport.authenticate())
     .delete(app.api.controllers.buildingEmployeeController.remove)
-    .put(app.api.controllers.buildingEmployeeController.update);
+    .get(app.api.controllers.buildingEmployeeController.getEmployeeByBuildingId);
 
   app
     .route('/payment')
@@ -73,5 +73,6 @@ module.exports = (app) => {
   app
     .route('/payment/:id')
     .all(app.config.passport.authenticate())
-    .delete(app.api.controllers.paymentController.remove);
+    .delete(app.api.controllers.paymentController.remove)
+    .put(app.api.controllers.paymentController.update);
 };

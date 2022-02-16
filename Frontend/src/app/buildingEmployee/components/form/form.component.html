@@ -1,0 +1,50 @@
+<mat-card class="mat-elevation-z1">
+  <mat-card-title></mat-card-title>
+  <mat-card-content>
+<form [formGroup]="form" fxLayoutAlign="center" appearance="standard" novalidate>
+  <mat-list>
+
+    <mat-list-item>
+      <mat-form-field>
+        <mat-select
+          placeholder="Construção"
+          formControlName="buildingId" (selectionChange)="loadAllEmployeeByBuildingId($event)" >
+          <mat-option *ngFor="let building of buildingList " [value]="building.id ">
+            {{building.id + '-'+ building.name}}
+          </mat-option>
+        </mat-select>
+
+    <mat-error *ngIf="form.controls['employeeId'].errors?.['required']">Campo obrigatório</mat-error>
+  </mat-form-field>
+  </mat-list-item>
+
+    <mat-list-item>
+      <mat-form-field>
+        <mat-select
+          placeholder="Funcionário"
+          formControlName="employeeId">
+          <mat-option *ngFor="let employee of employeeList " [value]="employee.id">
+            {{employee.name}}
+          </mat-option>
+        </mat-select>
+
+    <mat-error *ngIf="form.controls['employeeId'].errors?.['required']">Campo obrigatório</mat-error>
+  </mat-form-field>
+  </mat-list-item>
+
+
+      <mat-list-item fxLayoutAlign="center" class="buttonSpace">
+	  <button mat-raised-button color="primary"
+	  	[disabled]="form.invalid" (click)="onSubmit()">
+	  	Adicionar funcionário
+	  </button>
+	  &nbsp;
+	  <a mat-raised-button routerLink="/login">Voltar</a>
+	</mat-list-item>
+  </mat-list>
+</form>
+</mat-card-content>
+
+</mat-card>
+
+<app-buildingemployee-list [employeeList]="employeeByBuilding"></app-buildingemployee-list>

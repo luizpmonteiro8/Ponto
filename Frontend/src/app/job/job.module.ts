@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { ListComponent, FormComponent, JobComponent } from './components';
+import { ListComponent, FormComponent, JobComponent, ConfirmDialog } from './components';
 import { JobService, HttpUtilService } from '../api';
 
 import { PtBrMatPaginatorIntl } from '../shared';
@@ -21,9 +21,11 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorIntl } from '@angular/material/paginator';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
-  declarations: [FormComponent, ListComponent, JobComponent],
+  declarations: [FormComponent, ListComponent, JobComponent, ConfirmDialog],
   imports: [
     CommonModule,
     RouterModule,
@@ -39,7 +41,13 @@ import { MatPaginatorIntl } from '@angular/material/paginator';
     MatPaginatorModule,
     MatSortModule,
     MatCardModule,
+    MatDialogModule,
   ],
-  providers: [JobService, HttpUtilService, { provide: MatPaginatorIntl, useClass: PtBrMatPaginatorIntl }],
+  providers: [
+    JobService,
+    HttpUtilService,
+    { provide: MatPaginatorIntl, useClass: PtBrMatPaginatorIntl },
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
+  ],
 })
 export class JobModule {}

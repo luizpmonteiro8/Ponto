@@ -1,0 +1,77 @@
+<H1>Lista de salários</H1>
+<div class="wrapper">
+<mat-table [dataSource]="dataSource" matSort matSortActive="dayOfPayment" matSortDirection="desc" class=" mat-elevation-z8">
+
+	<mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columns;"></mat-row>
+
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        Id
+      </mat-header-cell>
+      <mat-cell *matCellDef="let paymentList">
+        {{ paymentList.id }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        Construção
+      </mat-header-cell>
+      <mat-cell *matCellDef="let paymentList">
+      	{{ paymentList.building.name }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="dayOfPayment">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        Data do pagamento
+      </mat-header-cell>
+      <mat-cell *matCellDef="let paymentList">
+      	{{ paymentList.dayOfPayment | date }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="totalSalary">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        Pagamento total
+      </mat-header-cell>
+      <mat-cell *matCellDef="let paymentList">
+      	{{paymentList.totalSalary | currencyReal }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="edit">
+      <mat-header-cell *matHeaderCellDef>Visualizar</mat-header-cell>
+      <mat-cell *matCellDef="let paymentList">
+        <a (click)="routeUpdate(paymentList)" style="cursor: pointer"
+        ><mat-icon matTooltip="Funcionário">assignment_ind</mat-icon></a>
+      <a (click)="removeDialog(paymentList.id)"
+        style="cursor: pointer"><mat-icon matTooltip="Remover">clear</mat-icon></a>
+      </mat-cell>
+    </ng-container>
+
+
+</mat-table>
+</div>
+
+<br>
+<mat-paginator
+#paginator
+[pageSize]="10"
+[pageSizeOptions]="[5, 10, 15, 25]">
+</mat-paginator>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

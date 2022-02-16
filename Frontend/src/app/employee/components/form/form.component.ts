@@ -2,10 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Employee, Job } from 'src/app/api';
+import { Employee, EmployeeDTO, Job } from 'src/app/api';
 import { EmployeeService, JobService, CepService } from 'src/app/api';
 import { Title } from '@angular/platform-browser';
 import { CpfValidator } from 'src/app/shared';
+
+import { formatNumberOnWrite } from './../../../shared/util/formatNumber';
+import { formatNumberWithDot } from './../../../shared/util/convertNumber';
 
 @Component({
   selector: 'app-employee-form',
@@ -22,22 +25,25 @@ export class FormComponent implements OnInit {
     private titleService: Title,
     private employeeService: EmployeeService,
     private jobService: JobService,
-    private cepService: CepService, //,
-  ) /*private router: Router*/ {}
+    private cepService: CepService,
+    private router: Router,
+  ) {}
 
   ngOnInit() {
-    this.loadAllJob();
     this.createForm();
+    this.loadAllJob();
+    this.loadEmployeeByState();
   }
 
   createForm() {
     this.form = this.fb.group({
-      id: new FormControl({ value: '', disabled: true }),
+      id: [''],
       name: ['', [Validators.required]],
       cpf: ['', [Validators.required]],
       salary: ['', [Validators.min(0.01), Validators.required]],
       jobId: ['', [Validators.min(1), Validators.required]],
       address: this.fb.group({
+        id: [''],
         street: ['', Validators.required],
         number: ['', Validators.required],
         district: ['', Validators.required],
@@ -61,11 +67,20 @@ export class FormComponent implements OnInit {
     });
   }
 
+  loadEmployeeByState() {
+    if (history.state.employee) {
+      const employee: Employee = history.state.employee;
+      employee.salary = formatNumberOnWrite(employee.salary.toFixed(2));
+      this.form.get('jobId').setValue(employee.job.id);
+      this.form.patchValue({ ...employee });
+    }
+  }
+
   setTitle(newTitle: string) {
     this.titleService.setTitle(newTitle);
   }
 
-  onBlurMethodChangeTextForJobId($event) {
+  changeTextForJobId($event) {
     if (isNaN(this.form.value.jobId)) {
       const result = this.jobList.filter((item) => {
         return item.name == this.form.value.jobId;
@@ -78,7 +93,7 @@ export class FormComponent implements OnInit {
   }
 
   displayFn(id: number): string {
-    return this.jobList.filter((item) => {
+    return this.jobList?.filter((item) => {
       return item.id == id;
     })[0].name;
   }
@@ -89,7 +104,6 @@ export class FormComponent implements OnInit {
     if (cep.length == 9) {
       this.cepService.getAddressByCep(cep).subscribe({
         next: (resp) => {
-          console.log(resp);
           this.form.get('address.street').setValue(resp.logradouro);
           this.form.get('address.district').setValue(resp.bairro);
           this.form.get('address.city').setValue(resp.localidade);
@@ -103,22 +117,43 @@ export class FormComponent implements OnInit {
     }
   }
 
-  insertJob() {
+  formatNumber($event) {
+    const number = $event.target.value;
+    const result = formatNumberOnWrite(number);
+    $event.target.value = result;
+  }
+
+  onSubmit() {
     if (this.form.invalid) {
       return;
     }
-    const employee: Employee = this.form.value;
-    console.log(employee.salary.toLocaleString('en-US', { minimumFractionDigits: 2 }));
+    const employee: EmployeeDTO = this.form.value;
+    employee.salary = formatNumberWithDot(employee.salary);
+    console.log(employee.salary);
 
-    employee.salary = Number(employee.salary.toLocaleString('en-US', { minimumFractionDigits: 2 }));
-    this.employeeService.insert(employee).subscribe({
-      next: (resp) => {
-        this.snackBar.open('Salvo com id ' + resp.id, 'Sucesso', { duration: 5000 });
-      },
-      error: (err) => {
-        const msg = err.error?.message ? err.error.message : 'Tente novamente em instantes.';
-        this.snackBar.open(msg, 'Erro', { duration: 5000 });
-      },
-    });
+    if (employee.id > 0) {
+      this.employeeService.update(employee).subscribe({
+        complete: () => {
+          this.snackBar.open('Alterado id ' + employee.id, 'Sucesso', { duration: 5000 });
+          this.router.navigate(['/funcionario/listagem']);
+        },
+        error: (err) => {
+          const msg = err.error?.message ? err.error.message : 'Tente novamente em instantes.';
+          this.snackBar.open(msg, 'Erro', { duration: 5000 });
+        },
+      });
+    } else {
+      delete employee.address.id;
+      this.employeeService.insert(employee).subscribe({
+        next: (resp) => {
+          this.snackBar.open('Salvo com id ' + resp.id, 'Sucesso', { duration: 5000 });
+          this.router.navigate(['/funcionario/listagem']);
+        },
+        error: (err) => {
+          const msg = err.error?.message ? err.error.message : 'Tente novamente em instantes.';
+          this.snackBar.open(msg, 'Erro', { duration: 5000 });
+        },
+      });
+    }
   }
 }

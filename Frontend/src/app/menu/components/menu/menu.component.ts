@@ -23,6 +23,9 @@ export class MenuComponent implements OnInit {
       case 'employee':
         this.router.navigate(['/funcionario/listagem']);
         break;
+      case 'building':
+        this.router.navigate(['/construcao/listagem']);
+        break;
       default:
         this.router.navigate(['/']);
         break;
@@ -37,7 +40,26 @@ export class MenuComponent implements OnInit {
       case 'employee':
         this.router.navigate(['/funcionario']);
         break;
+      case 'building':
+        this.router.navigate(['/construcao']);
+        break;
+      case 'buildingEmployee':
+        this.router.navigate(['/funcionarioconstrucao']);
+        break;
+      case 'entry':
+        this.router.navigate(['/lancamento']);
+        break;
+      default:
+        this.router.navigate(['/']);
+        break;
+    }
+  }
 
+  report(type) {
+    switch (type) {
+      case 'payment':
+        this.router.navigate(['/salario']);
+        break;
       default:
         this.router.navigate(['/']);
         break;

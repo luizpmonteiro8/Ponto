@@ -1,0 +1,72 @@
+<H1>Lista de construção</H1>
+
+<mat-table [dataSource]="dataSource" matSort class=" mat-elevation-z8" multiTemplateDataRows>
+
+	<mat-header-row *matHeaderRowDef="columns; sticky: true"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columns;" class="building-element-row"
+    [class.employee-expanded-row]="row.isExpanded" style="cursor: pointer" (click)="row.isExpanded = !row.isExpanded"></mat-row>
+    <mat-row *matRowDef="let row; columns: ['expandedDetail']" class="employee-detail-row"></mat-row>
+
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        Id
+      </mat-header-cell>
+      <mat-cell *matCellDef="let buildingList">
+        {{ buildingList.id }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        Nome
+      </mat-header-cell>
+      <mat-cell *matCellDef="let buildingList">
+      	{{ buildingList.name }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="edit">
+      <mat-header-cell *matHeaderCellDef>Editar</mat-header-cell>
+      <mat-cell *matCellDef="let buildingList">
+        <a (click)="routeUpdate(buildingList)" style="cursor: pointer"
+        ><mat-icon matTooltip="Editar">create</mat-icon></a>
+      <a (click)="removeDialog(buildingList.id)"
+        style="cursor: pointer"><mat-icon matTooltip="Remover">clear</mat-icon></a>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let buildingList" [attr.colspan]="columns.length">
+
+        <div class="row employee-element-detail" [@detailExpand]="buildingList.isExpanded ? 'expanded' : 'collapsed'">
+          <mat-list>
+            <div mat-subheader class="employee-element-diagram">Funcionários da obra {{buildingList.name}}</div>
+            <mat-list-item *ngFor="let employee of buildingList.employeeList">
+              <div mat-line>{{employee.name}}</div>
+            </mat-list-item>
+          </mat-list>
+        </div>
+
+      </td>
+    </ng-container>
+
+
+</mat-table>
+<br>
+<mat-paginator
+#paginator
+[pageSize]="10"
+[pageSizeOptions]="[5, 10, 15, 25]">
+</mat-paginator>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -8,6 +8,10 @@ import { MenuModule } from './menu';
 import { LoginModule, LoginRoutingModule, SignupModule, SignUpRoutingModule } from './authentication';
 import { JobRoutingModule, JobModule } from './job';
 import { EmployeeRoutingModule, EmployeeModule } from './employee';
+import { BuildingRoutingModule, BuildingModule } from './building';
+import { BuildingEmployeeModule, BuildingEmployeeRoutingModule } from './buildingEmployee';
+import { EntryModule, EntryRoutingModule } from './entry';
+import { PaymentModule, PaymentRoutingModule } from './payment';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -27,6 +31,15 @@ import { AppComponent } from './app.component';
     JobRoutingModule,
     EmployeeModule,
     EmployeeRoutingModule,
+    BuildingModule,
+    BuildingRoutingModule,
+    BuildingEmployeeModule,
+    BuildingEmployeeRoutingModule,
+    EntryModule,
+    EntryRoutingModule,
+    PaymentModule,
+    PaymentRoutingModule,
+
     AppRoutingModule,
   ],
   providers: [],

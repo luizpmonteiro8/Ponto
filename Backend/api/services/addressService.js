@@ -12,6 +12,7 @@ module.exports = (app) => {
   };
 
   const save = (address) => {
+    delete address.id;
     return app
       .db('address')
       .insert(address)

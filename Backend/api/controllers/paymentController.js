@@ -18,6 +18,16 @@ module.exports = (app) => {
     }
   };
 
+  const update = async (req, res) => {
+    try {
+      await service.remove(req.params.id);
+      const result = await service.save(req.body);
+      res.status(200).send(result[0]);
+    } catch (e) {
+      return res.status(400).json({ status: 400, message: e.message });
+    }
+  };
+
   const remove = async (req, res) => {
     try {
       await service.remove(req.params.id);
@@ -27,5 +37,5 @@ module.exports = (app) => {
     }
   };
 
-  return { getAllPayment, save, remove };
+  return { getAllPayment, save, update, remove };
 };

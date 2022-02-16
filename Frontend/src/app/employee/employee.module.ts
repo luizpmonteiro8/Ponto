@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { ListComponent, FormComponent, EmployeeComponent } from './components';
+import { ListComponent, FormComponent, EmployeeComponent, ConfirmDialog } from './components';
 import { EmployeeService, JobService, CepService, HttpUtilService } from '../api';
 import { SharedModule } from 'src/app/shared';
 
@@ -22,10 +22,12 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorIntl } from '@angular/material/paginator';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSelectModule } from '@angular/material/select';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
-  declarations: [FormComponent, ListComponent, EmployeeComponent],
+  declarations: [FormComponent, ListComponent, EmployeeComponent, ConfirmDialog],
   imports: [
     CommonModule,
     RouterModule,
@@ -41,7 +43,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatPaginatorModule,
     MatSortModule,
     MatCardModule,
-    MatAutocompleteModule,
+    MatSelectModule,
+    MatDialogModule,
     SharedModule,
   ],
   providers: [
@@ -50,6 +53,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     CepService,
     HttpUtilService,
     { provide: MatPaginatorIntl, useClass: PtBrMatPaginatorIntl },
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
   ],
 })
 export class EmployeeModule {}

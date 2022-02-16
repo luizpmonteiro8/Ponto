@@ -5,7 +5,7 @@ import { HttpUtilService } from './http-util.service';
 describe('HttpUtilService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [HttpUtilService]
+      providers: [HttpUtilService],
     });
   });
 

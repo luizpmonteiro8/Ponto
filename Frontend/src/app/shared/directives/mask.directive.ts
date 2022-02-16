@@ -53,11 +53,11 @@ export class MaskDirective implements ControlValueAccessor {
 
   @HostListener('blur', ['$event'])
   onBlur($event: any) {
-    if ($event.target.value.length === this.mask.length) {
-      return;
-    }
-    this.onChange('');
-    $event.target.value = '';
+    //  if ($event.target.value.length === this.mask.length) {
+    //   return;
+    // }
+    // this.onChange('');
+    // $event.target.value = '';
   }
 
   applyMask(value: string): string {

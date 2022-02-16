@@ -10,8 +10,10 @@ class Building extends Model {
     json = super.$formatJson(json);
 
     let employeeList = [];
-    json.employeeList.map((item) => {
-      employeeList.push(item.employee);
+    json.employeeList?.map((item) => {
+      if (item.status) {
+        employeeList.push(item.employee);
+      }
     });
     json.employeeList = employeeList;
 

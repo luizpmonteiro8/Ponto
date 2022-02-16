@@ -1,0 +1,7 @@
+.wrapper{
+  display: flex;
+  overflow:scroll;
+}
+.mat-table{
+  min-width: 550px;
+}

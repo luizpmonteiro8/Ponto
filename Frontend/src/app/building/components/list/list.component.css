@@ -1,0 +1,42 @@
+table {
+  width: 100%;
+}
+
+tr.employee-detail-row {
+  height: 0;
+}
+
+tr.building-element-row:not(.example-expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.building-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.building-element-row td {
+  border-bottom-width: 0;
+}
+
+.employee-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.employee-element-diagram {
+  min-width: 80px;
+  padding: 8px;
+  font-weight: lighter;
+  margin: 8px 0;
+  height: 104px;
+}
+
+td.mat-cell{
+  border-bottom-style:none !important;
+}
+
+mat-row{
+  min-height: 0 !important;
+}
+
+

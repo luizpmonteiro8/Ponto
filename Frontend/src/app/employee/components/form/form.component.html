@@ -1,127 +1,114 @@
 <mat-card class="mat-elevation-z1">
   <mat-card-title>Cadastro de funcionário</mat-card-title>
   <mat-card-content>
-<form [formGroup]="form" fxLayoutAlign="center" appearance="standard" novalidate>
-  <mat-list>
+    <form [formGroup]="form" fxLayoutAlign="center" appearance="standard" novalidate>
+      <mat-list>
 
-  	<mat-list-item *ngIf="form.controls['id'].value">
-  	  <mat-form-field>
-    	<input matInput placeholder="Id"
-    		formControlName="id" >
-      </mat-form-field>
-    </mat-list-item>
+        <mat-list-item *ngIf="form.controls['id'].value">
+          <mat-form-field>
+            <input matInput placeholder="Id" formControlName="id" [readonly]='true'>
+          </mat-form-field>
+        </mat-list-item>
 
-    <mat-list-item>
-	  <mat-form-field>
-	    <input matInput placeholder="Nome"
-	    	formControlName="name">
-        <mat-error *ngIf="form.controls['name'].errors?.['required']">Campo obrigatório</mat-error>
-	  </mat-form-field>
-	</mat-list-item>
+        <mat-list-item>
+          <mat-form-field>
+            <input matInput placeholder="Nome" formControlName="name">
+            <mat-error *ngIf="form.controls['name'].errors?.['required']">Campo obrigatório</mat-error>
+          </mat-form-field>
+        </mat-list-item>
 
-  <mat-list-item>
-	  <mat-form-field>
-	    <input matInput placeholder="Cpf"
-	    	formControlName="cpf" mask="999.999.999-99">
-        <mat-error *ngIf="form.controls['cpf'].errors?.['cpf']">Formato inválido</mat-error>
-        <mat-error *ngIf="form.controls['cpf'].errors?.['required']">Campo obrigatório</mat-error>
+        <mat-list-item>
+          <mat-form-field>
+            <input matInput placeholder="Cpf" formControlName="cpf" mask="999.999.999-99">
+            <mat-error *ngIf="form.controls['cpf'].errors?.['required']">Campo obrigatório</mat-error>
 
-	  </mat-form-field>
-	</mat-list-item>
+          </mat-form-field>
+        </mat-list-item>
 
-  <mat-list-item>
-	  <mat-form-field>
-	    <input matInput placeholder="Salário"
-	    	formControlName="salary">
-        <mat-error *ngIf="form.controls['salary'].errors?.['required']">Campo obrigatório</mat-error>
-        <mat-error *ngIf="form.controls['salary'].errors?.['min']">Deve ser valor acima de 0</mat-error>
-	  </mat-form-field>
-	</mat-list-item>
+        <mat-list-item>
+          <mat-form-field>
+            <input matInput inputmode="numeric" pattern="[0-9]*" digitOnly placeholder="Salário(R$)" formControlName="salary" (keyup)="formatNumber($event)">
+            <mat-error *ngIf="form.controls['salary'].errors?.['required']">Campo obrigatório</mat-error>
+            <mat-error *ngIf="form.controls['salary'].errors?.['min']">Deve ser valor acima de 0</mat-error>
+          </mat-form-field>
+        </mat-list-item>
 
-  <mat-list-item>
-    <mat-form-field>
+        <mat-list-item>
+          <mat-form-field>
+            <mat-select placeholder="Cargo" formControlName="jobId">
+              <mat-option *ngFor="let job of jobList " [value]="job.id">
+                {{job.name}}
+              </mat-option>
+            </mat-select>
 
-    <input matInput placeholder="Cargo"
-	    	formControlName="jobId" [matAutocomplete]="auto" (blur)="onBlurMethodChangeTextForJobId($event)">
+            <mat-error *ngIf="form.controls['jobId'].errors?.['required']">Campo obrigatório</mat-error>
+          </mat-form-field>
+        </mat-list-item>
 
-  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn.bind(this)">
-    <mat-option *ngFor="let job of jobList " [value]="job.id">
-      {{job.name}}
-    </mat-option>
-  </mat-autocomplete>
+        <mat-divider></mat-divider>
 
-  <mat-error *ngIf="form.controls['jobId'].errors?.['required']">Campo obrigatório</mat-error>
-</mat-form-field>
-</mat-list-item>
+        <H4>Endereço:</H4>
 
-<mat-divider></mat-divider>
+        <div formGroupName="address">
+          <mat-list-item>
+            <mat-form-field>
+              <input matInput placeholder="Cep" formControlName="zipcode" mask='99999-999'
+                (keyup)="addressByCep($event)">
+              <mat-error *ngIf="form.controls['address'].get('zipcode').errors?.['required']">Campo obrigatório
+              </mat-error>
+            </mat-form-field>
+          </mat-list-item>
 
-<H4>Endereço:</H4>
 
+          <mat-list-item>
+            <mat-form-field>
+              <input matInput placeholder="Rua" formControlName="street">
+              <mat-error *ngIf="form.controls['address'].get('street').errors?.['required']">Campo obrigatório
+              </mat-error>
+            </mat-form-field>
+          </mat-list-item>
 
-{{form.value | json}}
-{{form.controls['cpf'].errors?.['cpf'] | json}}
+          <mat-list-item>
+            <mat-form-field>
+              <input matInput placeholder="Número" formControlName="number">
+              <mat-error *ngIf="form.controls['address'].get('number').errors?.['required']">Campo obrigatório
+              </mat-error>
+            </mat-form-field>
+          </mat-list-item>
 
-<div formGroupName="address">
-<mat-list-item>
-  <mat-form-field>
-    <input matInput placeholder="Cep"
-      formControlName="zipcode" mask = '99999-999' (keyup)="addressByCep($event)">
+          <mat-list-item>
+            <mat-form-field>
+              <input matInput placeholder="Bairro" formControlName="district">
+              <mat-error *ngIf="form.controls['address'].get('district').errors?.['required']">Campo obrigatório
+              </mat-error>
+            </mat-form-field>
+          </mat-list-item>
 
-  </mat-form-field>
-</mat-list-item>
+          <mat-list-item>
+            <mat-form-field>
+              <input matInput placeholder="Cidade" formControlName="city">
+              <mat-error *ngIf="form.controls['address'].get('city').errors?.['required']">Campo obrigatório</mat-error>
+            </mat-form-field>
+          </mat-list-item>
 
-<mat-list-item>
-  <mat-form-field>
-    <input matInput placeholder="Rua"
-      formControlName="street">
+          <mat-list-item>
+            <mat-form-field>
+              <input matInput placeholder="Estado" formControlName="state">
+              <mat-error *ngIf="form.controls['address'].get('state').errors?.['required']">Campo obrigatório
+              </mat-error>
+            </mat-form-field>
+          </mat-list-item>
+        </div>
 
-  </mat-form-field>
-</mat-list-item>
-
-<mat-list-item>
-  <mat-form-field>
-    <input matInput placeholder="Número"
-      formControlName="number">
-
-  </mat-form-field>
-</mat-list-item>
-
-<mat-list-item>
-  <mat-form-field>
-    <input matInput placeholder="Bairro"
-      formControlName="district">
-
-  </mat-form-field>
-</mat-list-item>
-
-<mat-list-item>
-  <mat-form-field>
-    <input matInput placeholder="Cidade"
-      formControlName="city" >
-
-  </mat-form-field>
-</mat-list-item>
-
-<mat-list-item>
-  <mat-form-field>
-    <input matInput placeholder="Estado"
-      formControlName="state" >
-
-  </mat-form-field>
-</mat-list-item>
-</div>
-
-      <mat-list-item fxLayoutAlign="center" class="buttonSpace">
-	  <button mat-raised-button color="primary"
-	  	[disabled]="form.invalid" (click)="insertJob()">
-	  	Cadastrar
-	  </button>
-	  &nbsp;
-	  <a mat-raised-button routerLink="/login">Voltar</a>
-	</mat-list-item>
-  </mat-list>
-</form>
-</mat-card-content>
+        <mat-list-item fxLayoutAlign="center" class="buttonSpace">
+          <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="onSubmit()">
+            Cadastrar
+          </button>
+          &nbsp;
+          <a mat-raised-button routerLink="/login">Voltar</a>
+        </mat-list-item>
+      </mat-list>
+    </form>
+  </mat-card-content>
 
 </mat-card>

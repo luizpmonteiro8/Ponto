@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment as env } from '../../../environments/environment';
 import { HttpUtilService } from '../index';
 
-import { Employee } from '..';
+import { EmployeeDTO } from '..';
 
 @Injectable()
 export class EmployeeService {
@@ -16,12 +16,12 @@ export class EmployeeService {
     return this.http.get(env.baseUrl + this.PATH, this.httpUtil.headers());
   }
 
-  insert(employee: Employee): Observable<any> {
+  insert(employee: EmployeeDTO): Observable<any> {
     return this.http.post(env.baseUrl + this.PATH, employee, this.httpUtil.headers());
   }
 
-  update(employee: Employee): Observable<any> {
-    return this.http.put(env.baseUrl + this.PATH, employee, this.httpUtil.headers());
+  update(employee: EmployeeDTO): Observable<any> {
+    return this.http.put(env.baseUrl + this.PATH + '/' + employee.id, employee, this.httpUtil.headers());
   }
 
   remove(id: number): Observable<any> {

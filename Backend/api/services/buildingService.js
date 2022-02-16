@@ -18,6 +18,7 @@ module.exports = (app) => {
     const addressId = await addressService.save(body.address);
     const building = {
       name: body.name,
+      status: body.status,
       address_id: addressId.id,
     };
 
@@ -51,6 +52,7 @@ module.exports = (app) => {
     const building = {
       id: body.id,
       name: body.name,
+      status: body.status,
       address_id: body.address.id,
     };
 

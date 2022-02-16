@@ -1,0 +1,70 @@
+<H1 *ngIf="paymentList">Lista de salários dos funcionários da obra {{paymentList[0]?.building.name}}</H1>
+<H3 *ngIf="paymentList">Data do pagamento: {{paymentList[0]?.dayOfPayment.toString() | date}}</H3>
+<H3 *ngIf="paymentList">Total dos salários: {{paymentList[0]?.totalSalary.toString() |currencyReal}}</H3>
+
+<mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+  <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: columns;"></mat-row>
+
+
+
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+      Id
+    </mat-header-cell>
+    <mat-cell *matCellDef="let paymentItem">
+      {{ paymentItem.id }}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+      Nome
+    </mat-header-cell>
+    <mat-cell *matCellDef="let paymentItem">
+      {{ paymentItem.employee.name }}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="salary">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+      Salário
+    </mat-header-cell>
+    <mat-cell *matCellDef="let paymentItem">
+      {{ paymentItem.employee.salary.toString() |currencyReal }}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="dayOfAbsent">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+      Dias de falta
+    </mat-header-cell>
+    <mat-cell *matCellDef="let paymentItem">
+      {{ paymentItem.absentDay }}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="discont">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+      Desconto
+    </mat-header-cell>
+    <mat-cell *matCellDef="let paymentItem">
+      {{ paymentItem.discont.toString() |currencyReal }}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="totalSalary">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+      Total com desconto
+    </mat-header-cell>
+    <mat-cell *matCellDef="let paymentItem">
+      {{ paymentItem.totalWithDiscont |currencyReal}}
+    </mat-cell>
+  </ng-container>
+
+</mat-table>
+
+<br>
+<mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 15, 25]">
+</mat-paginator>

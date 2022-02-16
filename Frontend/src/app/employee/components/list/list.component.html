@@ -1,6 +1,7 @@
-<H1>Lista de funcionário</H1>
+<H1>Lista de funcionários</H1>
 
-<mat-table [dataSource]="dataSource" matSort>
+<div class="wrapper">
+<mat-table [dataSource]="dataSource" matSort class=" mat-elevation-z8">
 
 	<mat-header-row *matHeaderRowDef="columns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: columns;"></mat-row>
@@ -23,13 +24,47 @@
       </mat-cell>
     </ng-container>
 
-</mat-table>
+    <ng-container matColumnDef="job">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        Cargo
+      </mat-header-cell>
+      <mat-cell *matCellDef="let employeeList">
+      	{{ employeeList.job.name }}
+      </mat-cell>
+    </ng-container>
 
+    <ng-container matColumnDef="cpf">
+      <mat-header-cell *matHeaderCellDef>
+        Cpf
+      </mat-header-cell>
+      <mat-cell *matCellDef="let employeeList">
+      	{{ employeeList.cpf | cpf}}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="edit">
+      <mat-header-cell *matHeaderCellDef>Editar</mat-header-cell>
+      <mat-cell *matCellDef="let employeeList">
+        <a (click)="routeUpdate(employeeList)" style="cursor: pointer"
+        ><mat-icon matTooltip="Editar">create</mat-icon></a>
+      <a (click)="removeDialog(employeeList.id)"
+        style="cursor: pointer"><mat-icon matTooltip="Remover">clear</mat-icon></a>
+      </mat-cell>
+    </ng-container>
+
+
+
+</mat-table>
+</div>
+
+<br>
 <mat-paginator
-  #paginator
-  [pageSize]="10"
-  [pageSizeOptions]="[5, 10, 15, 25]">
+#paginator
+[pageSize]="10"
+[pageSizeOptions]="[5, 10, 15, 25]">
 </mat-paginator>
+
+
 
 
 

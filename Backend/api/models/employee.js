@@ -12,6 +12,20 @@ class Employee extends Model {
     return json;
   }
 
+  $parseDatabaseJson(json) {
+    json = super.$parseDatabaseJson(json);
+
+    Object.keys(json).forEach((prop) => {
+      const value = json[prop];
+
+      if (prop == 'salary') {
+        json.salary = Number(value).toFixed(2);
+      }
+    });
+
+    return json;
+  }
+
   static get relationMappings() {
     const Address = require('./address');
     const Job = require('./job');

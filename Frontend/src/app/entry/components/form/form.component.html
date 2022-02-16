@@ -1,0 +1,107 @@
+<mat-card class="mat-elevation-z1">
+  <mat-card-title>Cadastro de lançamento</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="form" fxLayoutAlign="center" appearance="standard" novalidate>
+      <mat-list>
+
+        <mat-list-item>
+          <mat-form-field>
+            <mat-select placeholder="Construção" formControlName="buildingId"
+              (selectionChange)="loadEmployeeByBuildingId($event)">
+              <mat-option *ngFor="let building of buildingList" [value]="building.id ">
+                {{building.id + '-'+ building.name}}
+              </mat-option>
+            </mat-select>
+
+            <mat-error *ngIf="form.controls['buildingId'].errors?.['required']">Campo obrigatório</mat-error>
+          </mat-form-field>
+        </mat-list-item>
+
+        <mat-list-item>
+          <mat-form-field>
+            <mat-select placeholder="Funcionário" formControlName="employeeId"
+            (selectionChange)="loadEntryByEmployeeId($event)">
+              <mat-option *ngFor="let employee of employeeList " [value]="employee.id ">
+                {{employee.name}}
+              </mat-option>
+            </mat-select>
+
+            <mat-error *ngIf="form.controls['employeeId'].errors?.['required']">Campo obrigatório</mat-error>
+          </mat-form-field>
+        </mat-list-item>
+
+        <mat-list-item>
+          <mat-form-field>
+            <mat-select placeholder="Tipo" formControlName="type">
+              <mat-option *ngFor="let entryType of entryTypeList" [value]="entryType ">
+                {{entryType}}
+              </mat-option>
+            </mat-select>
+
+            <mat-error *ngIf="form.controls['employeeId'].errors?.['required']">Campo obrigatório</mat-error>
+          </mat-form-field>
+        </mat-list-item>
+
+        <mat-list-item>
+          <mat-form-field>
+            <input matInput [matDatepicker]="data" placeholder="Data" readonly="readonly" formControlName="dateTime">
+            <mat-datepicker-toggle matSuffix [for]="data"></mat-datepicker-toggle>
+            <mat-datepicker touchUi="true" #data></mat-datepicker>
+          </mat-form-field>
+        </mat-list-item>
+
+        <div class="formatHours">
+          <mat-list-item>
+            <mat-form-field>
+              <mat-select placeholder="Horas" formControlName="hours">
+                <mat-option *ngFor="let hour of hours" [value]="hour">
+                  {{hour}}
+                </mat-option>
+              </mat-select>
+
+              <mat-error *ngIf="form.controls['employeeId'].errors?.['required']">Campo obrigatório</mat-error>
+            </mat-form-field>
+          </mat-list-item>
+
+          <mat-list-item>
+            <mat-form-field>
+              <mat-select placeholder="Minutos" formControlName="minutes">
+                <mat-option *ngFor="let minute of minutes" [value]="minute">
+                  {{minute}}
+                </mat-option>
+              </mat-select>
+
+              <mat-error *ngIf="form.controls['employeeId'].errors?.['required']">Campo obrigatório</mat-error>
+            </mat-form-field>
+          </mat-list-item>
+        </div>
+
+        <div class="divTextArea">
+          <mat-list-item>
+            <mat-form-field>
+              <textarea class="textAreaSize" matInput placeholder="Observações" formControlName="obs" cdkAutosizeMinRows="10"></textarea>
+            </mat-form-field>
+          </mat-list-item>
+        </div>
+
+
+        <mat-list-item fxLayoutAlign="center" class="buttonSpace">
+          <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="onSubmit()">
+           {{form.get('id').value>0 ? 'Alterar': 'Cadastrar'}}
+          </button>
+          &nbsp;
+          <a mat-raised-button routerLink="/login">Voltar</a>
+          &nbsp;
+          <a mat-raised-button color="warn" (click)="form.reset()">Reset</a>
+        </mat-list-item>
+      </mat-list>
+    </form>
+  </mat-card-content>
+
+</mat-card>
+
+
+<app-entry-list [entryList]="entryList" (entryId)="updateEntry($event)" ></app-entry-list>
+
+
+

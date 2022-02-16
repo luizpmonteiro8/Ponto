@@ -1,28 +1,38 @@
-<mat-toolbar color="primary">
-  <a (click)="home()">Sistema de ponto</a>
+<mat-toolbar *ngIf="isAutheticaded()" color="primary">
+  <mat-toolbar-row>
+    <a (click)="home()">Sistema de ponto</a>
+  </mat-toolbar-row>
 
-  <button mat-flat-button [matMenuTriggerFor]="registrationMenu"  *ngIf="isAutheticaded()">Cadastro</button>
-<mat-menu #registrationMenu="matMenu">
-  <button (click)="registration('job')" mat-menu-item>Cargo</button>
-  <button (click)="registration('employee')" mat-menu-item>Funcionário</button>
-</mat-menu>
+  <mat-toolbar-row>
+    <button mat-flat-button [matMenuTriggerFor]="registrationMenu">Cadastro</button>
+    <mat-menu #registrationMenu="matMenu">
+      <button (click)="registration('job')" mat-menu-item>Cargo</button>
+      <button (click)="registration('employee')" mat-menu-item>Funcionário</button>
+      <button (click)="registration('building')" mat-menu-item>Construção</button>
+      <button (click)="registration('buildingEmployee')" mat-menu-item>Funcionário na construção</button>
+      <button (click)="registration('entry')" mat-menu-item>Lançamento</button>
+    </mat-menu>
 
-<button mat-flat-button [matMenuTriggerFor]="listMenu"  *ngIf="isAutheticaded()">Listagem</button>
-<mat-menu #listMenu="matMenu">
-  <button (click)="list('job')" mat-menu-item>Cargo</button>
-  <button (click)="list('employee')" mat-menu-item>Funcionário</button>
-</mat-menu>
+    <button mat-flat-button [matMenuTriggerFor]="listMenu">Listagem</button>
+    <mat-menu #listMenu="matMenu">
+      <button (click)="list('job')" mat-menu-item>Cargo</button>
+      <button (click)="list('employee')" mat-menu-item>Funcionário</button>
+      <button (click)="list('building')" mat-menu-item>Construção</button>
+    </mat-menu>
 
-<span class="toolbar-spacer"></span>
+    <button mat-flat-button [matMenuTriggerFor]="reportMenu">Relatório</button>
+    <mat-menu #reportMenu="matMenu">
+      <button (click)="report('payment')" mat-menu-item>Salário</button>
 
-  <a (click)="logout()"
-    alt="Sair" title="Sair"
-    *ngIf="isAutheticaded()">
-    <mat-icon
-    	class="toolbar-icon"
-    	matTooltip="Sair">
-    	exit_to_app
-    </mat-icon>
-  </a>
+    </mat-menu>
+  </mat-toolbar-row>
+
+
+  <mat-toolbar-row>
+    <a (click)="logout()" alt="Sair" title="Sair" *ngIf="isAutheticaded()">
+      <mat-icon class="toolbar-icon" matTooltip="Sair">
+        exit_to_app
+      </mat-icon>
+    </a>
+  </mat-toolbar-row>
 </mat-toolbar>
-

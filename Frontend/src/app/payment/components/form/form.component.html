@@ -1,0 +1,40 @@
+<mat-card class="mat-elevation-z1">
+  <mat-card-title>Calcular salários por mês</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="form" fxLayoutAlign="center" appearance="standard" novalidate>
+      <mat-list>
+
+        <mat-list-item>
+          <mat-form-field>
+            <mat-select placeholder="Construção" formControlName="buildingId">
+              <mat-option *ngFor="let building of buildingList " [value]="building.id">
+                {{building.name}}
+              </mat-option>
+            </mat-select>
+
+            <mat-error *ngIf="form.controls['buildingId'].errors?.['required']">Campo obrigatório</mat-error>
+          </mat-form-field>
+        </mat-list-item>
+
+        <mat-list-item>
+          <mat-form-field>
+            <input matInput [matDatepicker]="data" placeholder="Data" readonly="readonly" formControlName="date">
+            <mat-datepicker-toggle matSuffix [for]="data"></mat-datepicker-toggle>
+            <mat-datepicker touchUi="true" startView="multi-year" (yearSelected)="chosenYearHandler($event)" (monthSelected)="chosenMonthHandler($event,data)" #data
+              panelClass="example-month-picker"></mat-datepicker>
+          </mat-form-field>
+        </mat-list-item>
+
+        <mat-list-item fxLayoutAlign="center" class="buttonSpace">
+          <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="onSubmit()">
+            Cadastrar
+          </button>
+          &nbsp;
+          <a mat-raised-button routerLink="/login">Voltar</a>
+        </mat-list-item>
+      </mat-list>
+    </form>
+  </mat-card-content>
+
+</mat-card>
+

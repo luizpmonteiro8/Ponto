@@ -1,0 +1,57 @@
+.buttonSpace {
+  margin-top: 20px;
+}
+mat-card{
+  align-self: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  width: 50%;
+  min-width: 300px;
+  border: 0.01px solid rgb(214, 211, 211)
+}
+
+mat-list{
+  width: 100%;
+}
+
+.mat-list-item-content{
+  width: 100%;
+
+}
+
+mat-form-field{
+  width: 100%;
+}
+
+
+input.ng-touched.ng-invalid mat-list-item{
+  margin-bottom: 20px;
+}
+
+.formatHours{
+  display: flex;
+
+}
+
+.divTextArea{
+  height: 150px;
+  align-items: center;
+  display: flex;
+}
+
+.textAreaSize:not([value='']){
+  height: 120px;
+  resize: none;
+}
+
+@media (max-width: 830px) {
+  .formatHours{
+    display: block;
+
+  }
+}
+
+
+
+
