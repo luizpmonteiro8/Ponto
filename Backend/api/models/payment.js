@@ -20,8 +20,6 @@ class Payment extends Model {
     Object.keys(json).forEach((prop) => {
       const value = json[prop];
 
-      console.log(prop);
-
       if (prop == 'day_of_payment') {
         json.dayOfPayment = value;
       }

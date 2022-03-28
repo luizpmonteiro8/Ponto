@@ -10,6 +10,7 @@ module.exports = (app) => {
 
   const save = (job) => {
     delete job.id;
+
     return app
       .db('job')
       .insert(job)
