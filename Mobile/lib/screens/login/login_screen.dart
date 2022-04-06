@@ -5,7 +5,7 @@ import 'package:mobx/mobx.dart';
 import 'package:ponto/api/model/user.dart';
 import 'package:ponto/components/custom_input.dart';
 import 'package:ponto/components/error_box.dart';
-import 'package:ponto/screens/job/job_registration_screen.dart';
+import 'package:ponto/screens/job/job_list_screen.dart';
 import 'package:ponto/store/login_store.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,9 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
     SharedPreferences.getInstance().then((value) => {
           if (value.getString('authorization') != null)
             {
-              user.token = value.getString('authorization'),
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => JobRegistrationScreen()))
+              loginStore.setIsLogged(true),
             }
         });
 
@@ -38,8 +36,9 @@ class _LoginScreenState extends State<LoginScreen> {
               if (value.getString('authorization') != null)
                 {
                   user.token = value.getString('authorization'),
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) => JobRegistrationScreen())),
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => JobListScreen()),
+                      (Route<dynamic> route) => false)
                 }
             });
       }
@@ -72,7 +71,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     Observer(builder: (_) {
                       return CustomInput(
                         onChanged: loginStore.setEmail,
-                        enabled: true,
                         label: 'Email',
                         initialValue: loginStore.email,
                         error: loginStore.emailError,
@@ -85,7 +83,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         initialValue: loginStore.password,
                         password: true,
                         onChanged: loginStore.setPassword,
-                        enabled: true,
                         error: loginStore.passwordError,
                         obscure: !loginStore.passwordVisible,
                         onTap: loginStore.togglePasswordVisibility,

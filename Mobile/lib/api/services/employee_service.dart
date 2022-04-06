@@ -1,15 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:ponto/api/model/job.dart';
+import 'package:ponto/api/model/employee.dart';
 import 'package:ponto/api/model/user.dart';
 import 'package:ponto/environments.dart';
 
-class JobServices {
-  final endpoint = '/job';
+class EmployeeServices {
+  final endpoint = '/employee';
   final User user = GetIt.I<User>();
   Dio dio = Dio();
 
-  JobServices() {
+  EmployeeServices() {
     dio.options.connectTimeout = 5000;
     dio.options.receiveTimeout = 15000;
     dio.options.sendTimeout = 15000;
@@ -19,27 +19,26 @@ class JobServices {
     };
   }
 
-  Future<List<Job>> getJobs() async {
+  Future<List<Employee>> getEmployees() async {
     try {
       final response = await dio.get<List>(endpoint);
-      List<Job> listJob;
+      List<Employee> listEmployee;
       try {
-        listJob = response.data!.map((j) => Job.fromJson(j)).toList();
+        listEmployee = response.data!.map((j) => Employee.fromJson(j)).toList();
       } catch (e) {
         return Future.error('Ocorreu um erro inesperado!');
       }
-
-      return listJob;
+      return listEmployee;
     } on DioError catch (e) {
       return Future.error(e.response!.data["message"]);
     }
   }
 
-  Future<int> insert(Job job) async {
+  Future<int> insert(Employee employee) async {
     try {
       final response = await dio.post(
         endpoint,
-        data: job,
+        data: employee,
       );
       return response.data['id'];
     } on DioError catch (e) {
@@ -47,11 +46,11 @@ class JobServices {
     }
   }
 
-  Future<Object> update(Job job) async {
+  Future<Object> update(Employee employee) async {
     try {
       final response = await dio.put(
-        endpoint + '/' + job.id.toString(),
-        data: job,
+        endpoint + '/' + employee.id.toString(),
+        data: employee,
       );
       return response;
     } on DioError catch (e) {
@@ -59,10 +58,10 @@ class JobServices {
     }
   }
 
-  Future<Object> delete(Job job) async {
+  Future<Object> delete(Employee employee) async {
     try {
       final response = await dio.delete(
-        endpoint + '/' + job.id.toString(),
+        endpoint + '/' + employee.id.toString(),
       );
 
       return response;

@@ -134,6 +134,13 @@ mixin _$LoginStore on _LoginStore, Store {
     return _$_sendAsyncAction.run(() => super._send());
   }
 
+  final _$logoutAsyncAction = AsyncAction('_LoginStore.logout');
+
+  @override
+  Future<void> logout() {
+    return _$logoutAsyncAction.run(() => super.logout());
+  }
+
   final _$_LoginStoreActionController = ActionController(name: '_LoginStore');
 
   @override
@@ -175,6 +182,17 @@ mixin _$LoginStore on _LoginStore, Store {
         name: '_LoginStore.togglePasswordVisibility');
     try {
       return super.togglePasswordVisibility();
+    } finally {
+      _$_LoginStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setIsLogged(bool value) {
+    final _$actionInfo = _$_LoginStoreActionController.startAction(
+        name: '_LoginStore.setIsLogged');
+    try {
+      return super.setIsLogged(value);
     } finally {
       _$_LoginStoreActionController.endAction(_$actionInfo);
     }

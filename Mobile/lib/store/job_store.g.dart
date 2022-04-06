@@ -59,6 +59,36 @@ mixin _$JobStore on _JobStore, Store {
     });
   }
 
+  final _$sucessAtom = Atom(name: '_JobStore.sucess');
+
+  @override
+  bool get sucess {
+    _$sucessAtom.reportRead();
+    return super.sucess;
+  }
+
+  @override
+  set sucess(bool value) {
+    _$sucessAtom.reportWrite(value, super.sucess, () {
+      super.sucess = value;
+    });
+  }
+
+  final _$loadingAtom = Atom(name: '_JobStore.loading');
+
+  @override
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
+    });
+  }
+
   final _$idAtom = Atom(name: '_JobStore.id');
 
   @override
@@ -127,6 +157,13 @@ mixin _$JobStore on _JobStore, Store {
     return _$_sendAsyncAction.run(() => super._send());
   }
 
+  final _$deleteAsyncAction = AsyncAction('_JobStore.delete');
+
+  @override
+  Future<void> delete(Job job) {
+    return _$deleteAsyncAction.run(() => super.delete(job));
+  }
+
   final _$_JobStoreActionController = ActionController(name: '_JobStore');
 
   @override
@@ -152,10 +189,23 @@ mixin _$JobStore on _JobStore, Store {
   }
 
   @override
+  dynamic reset() {
+    final _$actionInfo =
+        _$_JobStoreActionController.startAction(name: '_JobStore.reset');
+    try {
+      return super.reset();
+    } finally {
+      _$_JobStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 showErrors: ${showErrors},
 error: ${error},
+sucess: ${sucess},
+loading: ${loading},
 id: ${id},
 name: ${name},
 listJobs: ${listJobs},

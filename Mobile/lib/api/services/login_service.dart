@@ -1,9 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:ponto/api/model/login.dart';
+import 'package:ponto/environments.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginServices {
-  final endpoint = 'http://192.168.1.10:8080/signin';
+  final endpoint = EnvironmentConfig.urlsConfig() + '/signin';
 
   Future<bool> getLogin(Login login) async {
     try {

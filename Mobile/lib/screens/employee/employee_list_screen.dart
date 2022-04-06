@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
-import 'package:ponto/api/model/job.dart';
+import 'package:ponto/api/model/employee.dart';
 import 'package:ponto/components/custom_drawer.dart';
-import 'package:ponto/screens/job/job_registration_screen.dart';
-import 'package:ponto/store/job_store.dart';
+import 'package:ponto/screens/employee/employee_registration_screen.dart';
+import 'package:ponto/store/employee_store.dart';
 
-class JobListScreen extends StatefulWidget {
+class EmployeeListScreen extends StatefulWidget {
   @override
-  _JobListScreenState createState() => _JobListScreenState();
+  _EmployeeListScreenState createState() => _EmployeeListScreenState();
 }
 
-class _JobListScreenState extends State<JobListScreen> {
-  JobStore jobStore = GetIt.I<JobStore>();
+class _EmployeeListScreenState extends State<EmployeeListScreen> {
+  EmployeeStore employeeStore = GetIt.I<EmployeeStore>();
 
   @override
   void initState() {
     super.initState();
-    if (jobStore.listJobs == null) {
-      jobStore.getJobs();
+    if (employeeStore.listEmployees == null) {
+      employeeStore.getEmployees();
     }
   }
 
@@ -26,7 +26,7 @@ class _JobListScreenState extends State<JobListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Lista de cargos'),
+          title: const Text('Lista de funcionário'),
           centerTitle: true,
           actions: [
             IconButton(
@@ -35,7 +35,7 @@ class _JobListScreenState extends State<JobListScreen> {
                 color: Colors.white,
               ),
               onPressed: () {
-                jobStore.getJobs();
+                employeeStore.getEmployees();
               },
             ),
             IconButton(
@@ -44,9 +44,9 @@ class _JobListScreenState extends State<JobListScreen> {
                 color: Colors.white,
               ),
               onPressed: () {
-                jobStore.reset();
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => JobRegistrationScreen()));
+                employeeStore.reset();
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => const EmployeeRegistrationScreen()));
               },
             )
           ],
@@ -56,10 +56,10 @@ class _JobListScreenState extends State<JobListScreen> {
           padding:
               const EdgeInsets.only(top: 15, left: 5, right: 5, bottom: 15),
           child: Observer(builder: (_) {
-            if (jobStore.listJobs != null && jobStore.listJobs!.isNotEmpty) {
-              return Scrollbar(
-                  child: ListView.separated(
-                itemCount: jobStore.listJobs!.length,
+            if (employeeStore.listEmployees != null &&
+                employeeStore.listEmployees!.isNotEmpty) {
+              return ListView.separated(
+                itemCount: employeeStore.listEmployees!.length,
                 itemBuilder: (_, index) {
                   return Container(
                     color: (index % 2 == 0)
@@ -72,28 +72,29 @@ class _JobListScreenState extends State<JobListScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text('id: ' +
-                                  jobStore.listJobs![index].id.toString()),
-                              Text('nome: ' + jobStore.listJobs![index].name),
+                                  employeeStore.listEmployees![index].id
+                                      .toString()),
+                              Text('nome: ' +
+                                  employeeStore.listEmployees![index].name),
                             ],
                           ),
                           Row(
                             children: [
                               ElevatedButton(
                                   onPressed: () {
-                                    jobStore.sendFormToRegistration(
-                                        jobStore.listJobs![index]);
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (_) =>
-                                                JobRegistrationScreen()));
+                                    employeeStore.sendFormToRegistration(
+                                        employeeStore.listEmployees![index]);
+                                    Navigator.of(context).push(MaterialPageRoute(
+                                        builder: (_) =>
+                                            const EmployeeRegistrationScreen()));
                                   },
                                   child: const Text('Alterar')),
                               const SizedBox(width: 10),
                               ElevatedButton(
-                                  onPressed: () => _deleteJobs(
-                                      jobStore.listJobs![index],
+                                  onPressed: () => _deleteEmployees(
+                                      employeeStore.listEmployees![index],
                                       context,
-                                      jobStore),
+                                      employeeStore),
                                   child: const Text('Deletar')),
                             ],
                           ),
@@ -103,9 +104,9 @@ class _JobListScreenState extends State<JobListScreen> {
                 separatorBuilder: (BuildContext context, int index) =>
                     const Divider(
                         height: 5, thickness: 1, color: Color(0xffff6e4a)),
-              ));
-            } else if (jobStore.listJobs != null &&
-                jobStore.listJobs!.isEmpty) {
+              );
+            } else if (employeeStore.listEmployees != null &&
+                employeeStore.listEmployees!.isEmpty) {
               return Center(
                   child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -135,18 +136,19 @@ class _JobListScreenState extends State<JobListScreen> {
   }
 }
 
-_deleteJobs(Job job, BuildContext context, JobStore jobStore) {
+_deleteEmployees(
+    Employee employee, BuildContext context, EmployeeStore employeeStore) {
   String message = 'Falha de comunicação!';
   showDialog(
       barrierDismissible: false,
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Deletar cargo ${job.name}?"),
+          title: Text("Deletar cargo ${employee.name}?"),
           content: const Text("Confirme abaixo"),
           actions: <Widget>[
             Observer(builder: (_) {
-              if (jobStore.loading == false) {
+              if (employeeStore.loading == false) {
                 return Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -164,7 +166,7 @@ _deleteJobs(Job job, BuildContext context, JobStore jobStore) {
                       child: const Text("Confirmar"),
                       onPressed: () async {
                         try {
-                          await jobStore.delete(job);
+                          await employeeStore.delete(employee);
                           message = 'Deletado com sucesso!';
                         } catch (e) {
                           message = e.toString();

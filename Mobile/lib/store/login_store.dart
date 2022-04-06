@@ -2,6 +2,7 @@ import 'package:mobx/mobx.dart';
 import 'package:ponto/api/model/login.dart';
 import 'package:ponto/api/services/login_service.dart';
 import 'package:ponto/helpers/extensions.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'login_store.g.dart';
 
@@ -54,6 +55,9 @@ abstract class _LoginStore with Store {
   bool isLogged = false;
 
   @action
+  void setIsLogged(bool value) => isLogged = value;
+
+  @action
   Future<void> _send() async {
     invalidSendPressed();
     Login login = Login();
@@ -65,5 +69,11 @@ abstract class _LoginStore with Store {
     } catch (e) {
       error = e.toString();
     }
+  }
+
+  @action
+  Future<void> logout() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.remove('authorization');
   }
 }
